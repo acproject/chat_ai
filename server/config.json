@@ -1,0 +1,14 @@
+{
+  "llm": {
+    "provider": "openai",
+    "apiBaseUrl": "https://www.owiseman.com/v1",
+    "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im93aXNlbWFuLmNvbV90b19sb2NhbCJ9.r-rya5XfdEiIZ8QeFrs-ylj0_SXvn5gZc5LET4NwZjI",
+    "model": "MiniMax-M2.7",
+    "temperature": 0.7,
+    "maxInputTokens": 184000,
+    "maxOutputTokens": 16000
+  },
+  "server": {
+    "port": 3001
+  }
+}

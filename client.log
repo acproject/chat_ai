@@ -1,0 +1,16 @@
+
+> ai-chat-client@1.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 262 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+6:48:01 PM [vite] hmr update /src/App.css
+6:48:40 PM [vite] hmr update /src/App.css
+6:54:31 PM [vite] hmr update /src/App.css
+7:06:10 PM [vite] hmr update /src/App.tsx
+7:06:29 PM [vite] hmr update /src/App.tsx
+7:06:45 PM [vite] hmr update /src/App.tsx
+7:07:09 PM [vite] hmr update /src/App.css
