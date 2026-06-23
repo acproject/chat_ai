@@ -32,7 +32,8 @@
 }
 
 .markdown-content code {
-  background-color: rgba(0, 0, 0, 0.06);
+  background-color: #f0f4f8;
+  color: #d63384;
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.9em;
@@ -40,12 +41,13 @@
 }
 
 .markdown-content pre {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
+  background-color: #282c34;
+  color: #abb2bf;
   padding: 16px;
   border-radius: 8px;
   overflow-x: auto;
   margin: 12px 0;
+  border: 1px solid #3e4451;
 }
 
 .markdown-content pre code {
@@ -102,13 +104,14 @@
 
 /* Dark theme */
 [data-theme="dark"] .markdown-content code {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #e0e0e0;
+  background-color: #3b3e46;
+  color: #e06c75;
 }
 
 [data-theme="dark"] .markdown-content pre {
-  background-color: #1a1a1a;
-  color: #d4d4d4;
+  background-color: #1e2127;
+  color: #abb2bf;
+  border-color: #3e4451;
 }
 
 [data-theme="dark"] .markdown-content blockquote {
