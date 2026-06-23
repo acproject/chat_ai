@@ -99,3 +99,36 @@
   max-width: 100%;
   border-radius: 8px;
 }
+
+/* Dark theme */
+[data-theme="dark"] .markdown-content code {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .markdown-content pre {
+  background-color: #1a1a1a;
+  color: #d4d4d4;
+}
+
+[data-theme="dark"] .markdown-content blockquote {
+  border-left-color: #555;
+  color: #999;
+}
+
+[data-theme="dark"] .markdown-content th,
+[data-theme="dark"] .markdown-content td {
+  border-color: #555;
+}
+
+[data-theme="dark"] .markdown-content th {
+  background-color: #3a3a3a;
+}
+
+[data-theme="dark"] .markdown-content a {
+  color: #58a6ff;
+}
+
+[data-theme="dark"] .markdown-content hr {
+  border-top-color: #555;
+}

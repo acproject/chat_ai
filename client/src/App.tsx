@@ -34,6 +34,9 @@ function App() {
   const [currentSessionId, setCurrentSessionId] = useState<number | null>(null);
   const [showSidebar, setShowSidebar] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const loadSessions = async () => {
@@ -85,6 +88,15 @@ function App() {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   const handleSend = async () => {
     const trimmedInput = input.trim();
@@ -272,6 +284,13 @@ function App() {
               {config.provider} · {config.model}
             </span>
           )}
+          <button 
+            className="theme-btn"
+            onClick={toggleTheme}
+            title={theme === 'light' ? '切换到深色模式' : '切换到浅色模式'}
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
           <button 
             className="settings-btn"
             onClick={() => setShowSettings(true)}

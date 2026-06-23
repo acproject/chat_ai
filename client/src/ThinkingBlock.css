@@ -74,3 +74,30 @@
   background: #ccc;
   border-radius: 3px;
 }
+
+/* Dark theme */
+[data-theme="dark"] .thinking-block {
+  border-color: #444;
+  background: #2a2a2a;
+}
+
+[data-theme="dark"] .thinking-header {
+  background: #333;
+  border-bottom-color: #444;
+}
+
+[data-theme="dark"] .thinking-header:hover {
+  background: #3a3a3a;
+}
+
+[data-theme="dark"] .thinking-title {
+  color: #aaa;
+}
+
+[data-theme="dark"] .thinking-content {
+  color: #bbb;
+}
+
+[data-theme="dark"] .thinking-content::-webkit-scrollbar-thumb {
+  background: #555;
+}
