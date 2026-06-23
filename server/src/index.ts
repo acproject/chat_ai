@@ -22,6 +22,15 @@ interface ServerConfig {
   server: {
     port: number;
   };
+  proxy?: {
+    enabled: boolean;
+    httpProxy: string;
+    httpsProxy: string;
+  };
+  webFetch?: {
+    maxRetries: number;
+    timeout: number;
+  };
 }
 
 function loadConfig(): ServerConfig {
@@ -255,6 +264,8 @@ app.get('/api/config', (req, res) => {
     temperature: config.llm.temperature,
     maxInputTokens: config.llm.maxInputTokens,
     maxOutputTokens: config.llm.maxOutputTokens,
+    proxy: config.proxy || { enabled: false, httpProxy: '', httpsProxy: '' },
+    webFetch: config.webFetch || { maxRetries: 3, timeout: 15000 },
   });
 });
 
@@ -269,6 +280,16 @@ app.put('/api/config', (req, res) => {
     if (newConfig.temperature !== undefined) config.llm.temperature = newConfig.temperature;
     if (newConfig.maxInputTokens !== undefined) config.llm.maxInputTokens = newConfig.maxInputTokens;
     if (newConfig.maxOutputTokens !== undefined) config.llm.maxOutputTokens = newConfig.maxOutputTokens;
+    
+    // 更新代理配置
+    if (newConfig.proxy !== undefined) {
+      config.proxy = newConfig.proxy;
+    }
+    
+    // 更新网页抓取配置
+    if (newConfig.webFetch !== undefined) {
+      config.webFetch = newConfig.webFetch;
+    }
     
     // 保存到文件
     writeFileSync(configPath, JSON.stringify(config, null, 2));

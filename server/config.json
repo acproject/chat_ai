@@ -10,5 +10,14 @@
   },
   "server": {
     "port": 3001
+  },
+  "proxy": {
+    "enabled": true,
+    "httpProxy": "http://127.0.0.1:11888",
+    "httpsProxy": "http://127.0.0.1:11888"
+  },
+  "webFetch": {
+    "maxRetries": 3,
+    "timeout": 15000
   }
 }

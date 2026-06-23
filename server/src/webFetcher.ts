@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 interface WebFetchResult {
   success: boolean;
@@ -8,42 +9,74 @@ interface WebFetchResult {
   error?: string;
 }
 
+interface FetchOptions {
+  proxy?: {
+    enabled: boolean;
+    httpProxy?: string;
+    httpsProxy?: string;
+  };
+  maxRetries?: number;
+  timeout?: number;
+}
+
 /**
  * 抓取网页内容并提取主要文本
  */
-export async function fetchWebPage(url: string): Promise<WebFetchResult> {
-  try {
-    const response = await axios.get(url, {
-      timeout: 15000,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      },
-      maxRedirects: 5,
-    });
+export async function fetchWebPage(url: string, options: FetchOptions = {}): Promise<WebFetchResult> {
+  const { proxy, maxRetries = 3, timeout = 15000 } = options;
 
-    const html = response.data;
-    
-    // 提取标题
-    const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-    const title = titleMatch ? titleMatch[1].trim() : '';
-    
-    // 提取主要内容
-    const content = extractMainContent(html);
-    
-    return {
-      success: true,
-      url,
-      title,
-      content: content.slice(0, 8000), // 限制内容长度
-    };
-  } catch (error: any) {
-    return {
-      success: false,
-      url,
-      error: error.message || 'Failed to fetch webpage',
-    };
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const useProxy = proxy?.enabled && attempt > 1;
+      const proxyUrl = useProxy ? (proxy?.httpsProxy || proxy?.httpProxy) : undefined;
+      
+      const config: any = {
+        timeout,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        },
+        maxRedirects: 5,
+      };
+
+      if (useProxy && proxyUrl) {
+        config.httpsAgent = new HttpsProxyAgent(proxyUrl);
+      }
+
+      const response = await axios.get(url, config);
+
+      const html = response.data;
+      
+      // 提取标题
+      const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+      const title = titleMatch ? titleMatch[1].trim() : '';
+      
+      // 提取主要内容
+      const content = extractMainContent(html);
+      
+      return {
+        success: true,
+        url,
+        title,
+        content: content.slice(0, 8000), // 限制内容长度
+      };
+    } catch (error: any) {
+      if (attempt === maxRetries) {
+        return {
+          success: false,
+          url,
+          error: error.message || 'Failed to fetch webpage',
+        };
+      }
+      // 继续重试
+    }
   }
+
+  return {
+    success: false,
+    url,
+    error: 'Max retries exceeded',
+  };
 }
 
 /**

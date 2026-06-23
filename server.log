@@ -3,25 +3,24 @@
 > tsx watch src/index.ts
 
 Database initialized
-Server running on http://localhost:3001
-Using model: MiniMax-M2.7
-Provider: openai
-Database: SQLite (sql.js)
-7:04:56 PM [tsx] change in ./src/index.ts Restarting...
-cDatabase initialized
-Server running on http://localhost:3001
-Using model: MiniMax-M2.7
-Provider: openai
-Database: SQLite (sql.js)
-7:05:48 PM [tsx] change in ./src/index.ts Restarting...
-cDatabase initialized
-Server running on http://localhost:3001
-Using model: MiniMax-M2.7
-Provider: openai
-Database: SQLite (sql.js)
-7:07:28 PM [tsx] change in ./src/index.ts Restarting...
-cDatabase initialized
-Server running on http://localhost:3001
-Using model: MiniMax-M2.7
-Provider: openai
-Database: SQLite (sql.js)
+node:events:486
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1948:16)
+    at listenInCluster (node:net:2005:12)
+    at Server.listen (node:net:2110:7)
+    at app.listen (/home/acproject/workspace/node_projects/chat_ai/server/node_modules/express/lib/application.js:635:24)
+    at start (/home/acproject/workspace/node_projects/chat_ai/server/src/index.ts:365:9)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1984:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 3001
+}
+
+Node.js v24.14.0

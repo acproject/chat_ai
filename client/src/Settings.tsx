@@ -8,6 +8,15 @@ interface Config {
   temperature: number;
   maxInputTokens: number;
   maxOutputTokens: number;
+  proxy: {
+    enabled: boolean;
+    httpProxy: string;
+    httpsProxy: string;
+  };
+  webFetch: {
+    maxRetries: number;
+    timeout: number;
+  };
 }
 
 interface SettingsProps {
@@ -81,7 +90,7 @@ function Settings({ onClose, onConfigUpdate }: SettingsProps) {
     }
   };
 
-  const handleChange = (field: keyof Config, value: string | number) => {
+  const handleChange = (field: keyof Config, value: any) => {
     if (!config) return;
     setConfig({ ...config, [field]: value });
   };
@@ -174,6 +183,71 @@ function Settings({ onClose, onConfigUpdate }: SettingsProps) {
               min="1"
             />
             <span className="hint">模型可生成的最大输出 token 数</span>
+          </div>
+
+          <div className="form-section">
+            <h3>代理设置</h3>
+            
+            <div className="form-group">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={config?.proxy?.enabled || false}
+                  onChange={(e) => handleChange('proxy', { ...config?.proxy, enabled: e.target.checked })}
+                />
+                启用代理
+              </label>
+            </div>
+
+            <div className="form-group">
+              <label>HTTP 代理</label>
+              <input
+                type="text"
+                value={config?.proxy?.httpProxy || ''}
+                onChange={(e) => handleChange('proxy', { ...config?.proxy, httpProxy: e.target.value })}
+                placeholder="例如: http://127.0.0.1:7890"
+                disabled={!config?.proxy?.enabled}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>HTTPS 代理</label>
+              <input
+                type="text"
+                value={config?.proxy?.httpsProxy || ''}
+                onChange={(e) => handleChange('proxy', { ...config?.proxy, httpsProxy: e.target.value })}
+                placeholder="例如: http://127.0.0.1:7890"
+                disabled={!config?.proxy?.enabled}
+              />
+            </div>
+          </div>
+
+          <div className="form-section">
+            <h3>网页抓取设置</h3>
+            
+            <div className="form-group">
+              <label>最大重试次数</label>
+              <input
+                type="number"
+                value={config?.webFetch?.maxRetries || 3}
+                onChange={(e) => handleChange('webFetch', { ...config?.webFetch, maxRetries: parseInt(e.target.value) })}
+                min="1"
+                max="10"
+              />
+              <span className="hint">网页抓取失败时的最大重试次数</span>
+            </div>
+
+            <div className="form-group">
+              <label>超时时间 (毫秒)</label>
+              <input
+                type="number"
+                value={config?.webFetch?.timeout || 15000}
+                onChange={(e) => handleChange('webFetch', { ...config?.webFetch, timeout: parseInt(e.target.value) })}
+                min="1000"
+                step="1000"
+              />
+              <span className="hint">网页抓取的超时时间</span>
+            </div>
           </div>
         </div>
 
