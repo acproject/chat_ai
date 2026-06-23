@@ -63,16 +63,36 @@ Guidelines:
 
 // 从 LLM 输出中检测工具调用
 function detectToolCall(content: string): { tool: string; args: any } | null {
-  const match = content.match(/```tool:(\w+)\n([\s\S]*?)```/);
-  if (!match) return null;
-  
-  const tool = match[1];
-  try {
-    const args = JSON.parse(match[2].trim());
-    return { tool, args };
-  } catch {
-    return null;
+  // 格式1: [TOOL_CALL] {tool => "web_fetch", args => { --url "https://..." }} [/TOOL_CALL]
+  const toolCallMatch = content.match(/\[TOOL_CALL\]\s*\{tool\s*=>\s*"(\w+)",\s*args\s*=>\s*\{([^}]*)\}\s*\}\s*\[\/TOOL_CALL\]/);
+  if (toolCallMatch) {
+    const tool = toolCallMatch[1];
+    const argsStr = toolCallMatch[2].trim();
+    
+    // 解析 args，支持 --url "..." 格式
+    const args: any = {};
+    const argMatches = argsStr.matchAll(/--(\w+)\s+"([^"]+)"/g);
+    for (const m of argMatches) {
+      args[m[1]] = m[2];
+    }
+    
+    if (Object.keys(args).length > 0) {
+      return { tool, args };
+    }
   }
+  
+  // 格式2: ```tool:web_fetch\n{"url": "..."}\n```
+  const match = content.match(/```tool:(\w+)\n([\s\S]*?)```/);
+  if (match) {
+    try {
+      const args = JSON.parse(match[2].trim());
+      return { tool: match[1], args };
+    } catch {
+      return null;
+    }
+  }
+  
+  return null;
 }
 
 // 执行工具调用
