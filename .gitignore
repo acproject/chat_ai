@@ -4,3 +4,5 @@ data
 *.pid
 client.pid
 server.pid
+client.log
+server.log
