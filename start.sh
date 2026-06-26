@@ -44,7 +44,7 @@ echo "Server PID: $SERVER_PID"
 # Wait for server to start
 sleep 3
 
-echo -e "${GREEN}Starting Client (Port 5173)...${NC}"
+echo -e "${GREEN}Starting Client (Port 5177)...${NC}"
 cd "$PROJECT_ROOT/client"
 npm run dev > "$PROJECT_ROOT/client.log" 2>&1 &
 CLIENT_PID=$!
@@ -57,7 +57,7 @@ echo -e "${GREEN}Application started successfully!${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
 echo "Server: http://localhost:3001"
-echo "Client: http://localhost:5173"
+echo "Client: http://localhost:5177"
 echo ""
 echo "Logs:"
 echo "  Server: $PROJECT_ROOT/server.log"

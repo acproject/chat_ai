@@ -294,6 +294,50 @@ body {
   display: flex;
   gap: 12px;
   align-items: flex-end;
+  position: relative;
+}
+
+.expand-btn {
+  position: absolute;
+  top: 22px;
+  right: 140px;
+  background-color: transparent !important;
+  border: none;
+  color: #5090F1;
+  font-size: 18px;
+  padding: 4px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.expand-btn:hover {
+  background-color: rgba(80, 144, 241, 0.1) !important;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .expand-btn {
+  color: #7cb9e8;
+}
+
+[data-theme="dark"] .expand-btn:hover {
+  background-color: rgba(124, 185, 232, 0.15) !important;
+}
+
+[data-theme="dark"] .expand-btn svg path {
+  fill: #7cb9e8;
+}
+
+.input-container.expanded textarea {
+  max-height: 360px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.input-container.expanded {
+  align-items: stretch;
 }
 
 textarea {

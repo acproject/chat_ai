@@ -37,6 +37,7 @@ function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
   });
+  const [inputExpanded, setInputExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const loadSessions = async () => {
@@ -379,13 +380,22 @@ function App() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="input-container">
+          <div className={`input-container ${inputExpanded ? 'expanded' : ''}`}>
+            <button 
+              className="expand-btn"
+              onClick={() => setInputExpanded(!inputExpanded)}
+              title={inputExpanded ? '缩小输入框' : '放大输入框'}
+            >
+              <svg className="icon" style={{width: '1em', height: '1em', verticalAlign: 'middle', fill: 'currentColor', overflow: 'hidden'}} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2007">
+                <path d="M184 789.088L389.309 583.78a8 8 0 0 1 11.313 0l39.598 39.598a8 8 0 0 1 0 11.313L234.912 840H384c8.837 0 16 7.163 16 16v48a8 8 0 0 1-8 8H144c-17.673 0-32-14.327-32-32V632a8 8 0 0 1 8-8h48c8.837 0 16 7.163 16 16v149.088z m656-554.422L634.569 440.098a8 8 0 0 1-11.314 0L583.657 400.5a8 8 0 0 1 0-11.314L788.843 184H640c-8.837 0-16-7.163-16-16v-48a8 8 0 0 1 8-8h248c17.673 0 32 14.327 32 32v248a8 8 0 0 1-8 8h-48c-8.837 0-16-7.163-16-16V234.666z" fill="currentColor" p-id="2008"></path>
+              </svg>
+            </button>
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Type your message..."
-              rows={1}
+              rows={inputExpanded ? 15 : 1}
             />
             <button onClick={handleSend} disabled={isLoading || !input.trim()}>
               Send
